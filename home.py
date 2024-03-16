@@ -79,7 +79,7 @@ def scoring_2(discussion):
                     succeed in the current role detailed in {st.session_state.job_details}''',
         'education backgroud':f'''how the educational background of the candidate
                                 fit with the need of the recquired role detailed in
-                                {st.session_state.job_details}''',
+                                {st.session_state.academic}''',
         'relevance of response':'''how the candidate's is able to understand the question
                                 and reply with a proper reponse''',
         'confidence':'''how confident is the candidate''',
