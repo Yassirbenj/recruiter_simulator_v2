@@ -24,21 +24,23 @@ import tempfile
 import speech_recognition as sr
 
 
-def set_state_initial(option,job_title,job_details,seniority,type_interview,language,job_offer):
+def set_state_initial(option,job_title,job_details,academic,seniority,type_interview,language,job_offer):
     st.session_state.stage = 1
     st.session_state.option=option
     st.session_state.job_title=job_title
     st.session_state.job_details=job_details
+    st.session_state.academic=academic
     st.session_state.seniority=seniority
     st.session_state.type_interview=type_interview
     st.session_state.language=language
     st.session_state.job_offer=job_offer
 
-def set_state_plus(option,job_title,job_details,seniority,type_interview,language,job_offer):
+def set_state_plus(option,job_title,job_details,academic,seniority,type_interview,language,job_offer):
 
     st.session_state.option=option
     st.session_state.job_title=job_title
     st.session_state.job_details=job_details
+    st.session_state.academic=academic
     st.session_state.seniority=seniority
     st.session_state.type_interview=type_interview
     st.session_state.language=language
@@ -168,12 +170,13 @@ def main():
 
         option=st.selectbox("select the type of test",['voice','text'],key='option')
         job_title=st.text_input("What's the title of the job offer you are replying to ?",key='job_title')
-        job_details=st.text_area("Paste the job description",key='job_details')
+        job_details=st.text_area("Paste the job skills",key='job_details')
+        academic=st.text_area("Paste the job acadmic background prerecquisites",key='academic')
         job_offer=f'the title of the job offer is {job_title}. the details of the job offer is {job_details}'
         seniority=st.selectbox("what's the level of seniority recquired for the job ?",["junior","confirmed","senior"],key='seniority')
         type_interview=st.selectbox('type of interview',['Technical'],key='type_interview')
         language=st.selectbox("Language of the interview ?",['English','French'],key='language')
-        st.button('Start', on_click=set_state_initial, args=[option,job_title,job_details,seniority,type_interview,language,job_offer])
+        st.button('Start', on_click=set_state_initial, args=[option,job_title,job_details,academic,seniority,type_interview,language,job_offer])
 
 
     if st.session_state.stage == 1:
@@ -182,10 +185,12 @@ def main():
                     You are a recruiter conducting an interview for the job offer {st.session_state.job_offer}.
                     The level of seniority of the job is {st.session_state.seniority}.
                     you are conducting a {st.session_state.type_interview} type of interview.
-                    You need to validate competencies of the candidate but also general behaviour.
+                    You need to validate academic background, competencies of the candidate
+                    and also general behaviour.
                     You will think about all the questions you want to ask the candidate.
+                    Ask questions related to the academic background compared to the job offer
+                    requests detailed in {st.session_state.acadmic}
                     Ask questions related to the skills detailed in {st.session_state.job_details}.
-                    you will start by questions related to their academic background.
                     You will ask one question and wait for the anwser.
                     you will not ask a question including multiple points to answer.
                     you will wait for the answer before asking another question.
@@ -311,6 +316,7 @@ def main():
                         set_state_plus(st.session_state.option,
                                             st.session_state.job_title,
                                             st.session_state.job_details,
+                                            st.session_state.academic,
                                             st.session_state.seniority,
                                             st.session_state.type_interview,
                                             st.session_state.language,
@@ -325,6 +331,7 @@ def main():
                         set_state_plus(st.session_state.option,
                                             st.session_state.job_title,
                                             st.session_state.job_details,
+                                            st.session_state.academic,
                                             st.session_state.seniority,
                                             st.session_state.type_interview,
                                             st.session_state.language,
@@ -341,6 +348,7 @@ def main():
                                          args=[st.session_state.option,
                                                st.session_state.job_title,
                                                st.session_state.job_details,
+                                               st.session_state.academic,
                                                st.session_state.seniority,
                                                st.session_state.type_interview,
                                                st.session_state.language,
@@ -350,6 +358,7 @@ def main():
                         set_state_plus(st.session_state.option,
                                             st.session_state.job_title,
                                             st.session_state.job_details,
+                                            st.session_state.academic,
                                             st.session_state.seniority,
                                             st.session_state.type_interview,
                                             st.session_state.language,
