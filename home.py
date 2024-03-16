@@ -185,7 +185,7 @@ def main():
                     You need to validate competencies of the candidate but also general behaviour.
                     You will think about all the questions you want to ask the candidate.
                     Ask questions related to the skills detailed in {st.session_state.job_details}.
-                    Ask questions related to their academic background.
+                    you will start by questions related to their academic background.
                     You will ask one question and wait for the anwser.
                     you will not ask a question including multiple points to answer.
                     you will wait for the answer before asking another question.
