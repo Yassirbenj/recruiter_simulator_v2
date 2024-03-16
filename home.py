@@ -63,6 +63,45 @@ def scoring(discussion):
         if response:
             return response.content
 
+def scoring_2(discussion):
+    eval_list=['Skills','Relevance of responses','Clarity','Confidence','Language']
+    eval_dict={
+        'skills':f'''Give preference to candidates who possess the technical skills
+                    required to address the job's responsibilities detailed
+                    in {st.session_state.job_details}''',
+        'experience':f''' how similar their previous job roles were to the one they
+                    are applying for, how much experience they have and how their
+                    previous responsibilities align with current ones.
+                    It is also crucial to think about previous accomplishments
+                    and how those accomplishments demonstrate their ability to
+                    succeed in the current role detailed in {st.session_state.job_details}''',
+        'education backgroud':f'''how the educational background of the candidate
+                                fit with the need of the recquired role detailed in
+                                {st.session_state.job_details}''',
+        'relevance of response':'''how the candidate's is able to understand the question
+                                and reply with a proper reponse''',
+        'confidence':'''how confident is the candidate''',
+        'language':'''is the candidate using a professional language and avoid grammar
+                    and ortograph errors'''
+    }
+    openai_api_key = st.secrets["openai"]
+    chat_eval_discussion=ChatOpenAI(model_name='gpt-4',temperature=0,openai_api_key=openai_api_key)
+    context = f'''evaluate a job interview between a recruiter and a candidate
+                based on following discussion: {discussion}.
+                give a feedback to the candidate on the good points and the major points
+                to be improved based on the following evaluation parameters: {eval_dict}.
+                Give clear explanations for each parameter.'''
+    context += '''Give a grade from 0 to 100% for each of those parameters.
+            Calculate a global grade as the average of the grade of each parameter'''
+    st.session_state.messages_eval=[]
+    st.session_state.messages_eval.append(SystemMessage(content=context))
+    st.session_state.messages_eval.append(HumanMessage(content=discussion))
+    with st.spinner ("Thinking..."):
+        response=chat_eval_discussion(st.session_state.messages_eval)
+        #st.write(response.content)
+        if response:
+            return response.content
+
 def evaluate_sentence2(job_offer,answer,language,question):
     openai_api_key = st.secrets["openai"]
     chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=0.8,openai_api_key=openai_api_key)
@@ -223,7 +262,7 @@ def main():
                 #st.write(st.session_state.stage)
                 #st.write(st.session_state.discussion[:-1])
                 st.header("Evaluation")
-                evaluation_response=scoring(st.session_state.discussion[:-1])
+                evaluation_response=scoring_2(st.session_state.discussion[:-1])
                 st.write(evaluation_response)
 
                 st.cache_data.clear()
