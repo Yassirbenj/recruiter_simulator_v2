@@ -104,7 +104,7 @@ def scoring_2(discussion):
 
 def evaluate_sentence2(job_offer,answer,language,question):
     openai_api_key = st.secrets["openai"]
-    chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=0.8,openai_api_key=openai_api_key)
+    chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
 
     persona=f'''
                 You are a coach in job interviews.
@@ -121,7 +121,9 @@ def evaluate_sentence2(job_offer,answer,language,question):
     st.session_state.messages_eval=[HumanMessage(content=f'''Please evaluate my anwser: {answer} to the question {question}.
                                             this answer is a part of a job interview for {job_offer} job.
                                             the job interview is in {language} language.
-                                            give your response in {language}''')]
+                                            give your response in {language}.
+                                            you will first give your evaluation.
+                                            and after give a better recommandation as an answer''')]
     with st.spinner ("Thinking..."):
         response=chat_eval_sentence(st.session_state.messages_eval)
         return response.content
@@ -182,7 +184,8 @@ def main():
                     you are conducting a {st.session_state.type_interview} type of interview.
                     You need to validate competencies of the candidate but also general behaviour.
                     You will think about all the questions you want to ask the candidate.
-                    Ask questions related to the following job details {st.session_state.job_details}.
+                    Ask questions related to the skills detailed in {st.session_state.job_details}.
+                    Ask questions related to their academic background.
                     You will ask one question and wait for the anwser.
                     you will not ask a question including multiple points to answer.
                     you will wait for the answer before asking another question.
@@ -242,6 +245,7 @@ def main():
                 answer=st.session_state.get('messages',[])[-2].content
                 #st.write(answer)
                 evaluation=evaluate_sentence2(st.session_state.job_offer,answer,st.session_state.language,last_question)
+                st.header('Evaluation of the last answer')
                 st.write(evaluation)
 
         st.session_state.discussion=discussion
