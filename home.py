@@ -189,7 +189,7 @@ def main():
                     and also general behaviour.
                     You will think about all the questions you want to ask the candidate.
                     Ask questions related to the academic background compared to the job offer
-                    requests detailed in {st.session_state.acadmic}
+                    requests detailed in {st.session_state.academic}
                     Ask questions related to the skills detailed in {st.session_state.job_details}.
                     You will ask one question and wait for the anwser.
                     you will not ask a question including multiple points to answer.
