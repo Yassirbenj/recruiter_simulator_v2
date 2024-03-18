@@ -159,7 +159,7 @@ def stxt_new(key,audio_bytes):
             st.markdown(" :red[An error have occured. The recording may be to short. We are not able to transcript correctly your voice. Please try again]",)
 
 def main():
-    #openai_api_key = st.secrets["openai"]
+    openai_api_key = st.secrets["openai"]
     #chat=ChatOpenAI(model_name='gpt-4',temperature=0.8,openai_api_key=openai_api_key)
 
     cohere_api_key = st.secrets["cohere"]
