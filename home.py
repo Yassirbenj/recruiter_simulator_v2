@@ -171,7 +171,7 @@ def main():
         option=st.selectbox("select the type of test",['voice','text'],key='option')
         job_title=st.text_input("What's the title of the job offer you are replying to ?",key='job_title')
         job_details=st.text_area("Paste the job skills",key='job_details')
-        academic=st.text_area("Paste the job acadmic background prerecquisites",key='academic')
+        academic=st.text_area("Paste the job academic background prerecquisites",key='academic')
         job_offer=f'the title of the job offer is {job_title}. the details of the job offer is {job_details}'
         seniority=st.selectbox("what's the level of seniority recquired for the job ?",["junior","confirmed","senior"],key='seniority')
         type_interview=st.selectbox('type of interview',['Technical'],key='type_interview')
@@ -297,6 +297,8 @@ def main():
                 data_df_updated=pd.concat([df,data_df])
                 conn.update(worksheet="entretiens",data=data_df_updated)
                 st.write("Evaluation stored with success")
+                with st.sidebar:
+                    st.button('Restart')
                 st.stop()
 
             with col_candidate:
@@ -373,6 +375,7 @@ def main():
                         set_state_plus(st.session_state.option,
                                             st.session_state.job_title,
                                             st.session_state.job_details,
+                                            st.session_state.academic,
                                             st.session_state.seniority,
                                             st.session_state.type_interview,
                                             st.session_state.language,
