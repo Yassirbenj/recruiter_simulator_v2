@@ -46,7 +46,7 @@ def set_state_plus(option,job_title,job_details,academic,seniority,type_intervie
     st.session_state.language=language
     st.session_state.job_offer=job_offer
 
-def disable_button(button):
+def disable_button():
     st.session_state.disabled=True
 
 def set_state(i):
