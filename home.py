@@ -265,7 +265,7 @@ def main():
         indicator=len(messages)
 
         #st.write(f"lenght: {len(messages)}")
-        if indicator > 4    :
+        if indicator > 1    :
             if "disabled" not in st.session_state:
                 st.session_state.disabled=False
             with st.sidebar:
