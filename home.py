@@ -265,7 +265,9 @@ def main():
         #st.write(f"lenght: {len(messages)}")
         if indicator > 4    :
             with st.sidebar:
-                stop=st.button("Stop and evaluate ?")
+                container=st.empty()
+                with container():
+                    stop=st.button("Stop and evaluate ?")
             if stop:
                 #st.write("evaluate")
                 #st.write(st.session_state.stage)
@@ -298,7 +300,9 @@ def main():
                 conn.update(worksheet="entretiens",data=data_df_updated)
                 st.write("Evaluation stored with success")
                 with st.sidebar:
-                    st.button('Restart')
+                    container.empty()
+                    with container():
+                        st.button('Restart')
                 st.stop()
 
             with col_candidate:
