@@ -46,6 +46,8 @@ def set_state_plus(option,job_title,job_details,academic,seniority,type_intervie
     st.session_state.language=language
     st.session_state.job_offer=job_offer
 
+def disable_button(button):
+    st.session_state.disabled=True
 
 def set_state(i):
     st.session_state.stage = i
@@ -264,8 +266,10 @@ def main():
 
         #st.write(f"lenght: {len(messages)}")
         if indicator > 4    :
+            if "disabled" not in st.session_state:
+                st.session_state.disabled=False
             with st.sidebar:
-                stop=st.button("Stop and evaluate ?",disabled=True)
+                stop=st.button("Stop and evaluate ?",on_click=disable_button,args=[],disabled=st.session_state.disabled)
             if stop:
                 #st.write("evaluate")
                 #st.write(st.session_state.stage)
