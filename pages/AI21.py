@@ -168,7 +168,7 @@ def main():
     #chat=ChatOpenAI(model_name='gpt-4',temperature=0.8,openai_api_key=openai_api_key)
     ai21_key=st.secrets["ai21"]
     #cohere_api_key = st.secrets["cohere"]
-    chat=ChatAI21(model="j2-ultra",AI21_API_KEY=ai21_key)
+    chat=ChatAI21(model="j2-ultra")
     #chat=ChatCohere(cohere_api_key=cohere_api_key)
 
     col_recruiter, col_candidate = st.columns(2)
