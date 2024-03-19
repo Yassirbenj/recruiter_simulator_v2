@@ -1,10 +1,12 @@
 from langchain.chat_models import ChatOpenAI
+from langchain.chat_models import ChatAnthropic
 from langchain.llms import OpenAI
 from langchain.schema import (
     AIMessage,
     HumanMessage,
     SystemMessage
 )
+from langchain.chat_models import ChatCohere
 from langchain.callbacks import get_openai_callback
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -88,8 +90,15 @@ def scoring_2(discussion):
         'language':'''is the candidate using a professional language and avoid grammar
                     and ortograph errors'''
     }
-    openai_api_key = st.secrets["openai"]
-    chat_eval_discussion=ChatOpenAI(model_name='gpt-4-0125-preview',temperature=0,openai_api_key=openai_api_key)
+    #openai_api_key = st.secrets["openai"]
+
+    claude_key = st.secrets["claude"]
+
+    chat_eval_discussion= ChatAnthropic(anthropic_api_key=claude_key, model_name="claude-2.1")
+
+    #cohere_api_key = st.secrets["cohere"]
+    #chat_eval_discussion=ChatCohere(cohere_api_key=cohere_api_key)
+    #chat_eval_discussion=ChatOpenAI(model_name='gpt-4',temperature=0,openai_api_key=openai_api_key)
     context = f'''evaluate a job interview between a recruiter and a candidate
                 based on following discussion: {discussion}.
                 give a feedback to the candidate on the good points and the major points
@@ -107,8 +116,13 @@ def scoring_2(discussion):
             return response.content
 
 def evaluate_sentence2(job_offer,answer,language,question):
-    openai_api_key = st.secrets["openai"]
-    chat_eval_sentence=ChatOpenAI(model_name='gpt-4-0125-preview',temperature=1,openai_api_key=openai_api_key)
+    #openai_api_key = st.secrets["openai"]
+    claude_key = st.secrets["claude"]
+
+    chat_eval_sentence= ChatAnthropic(anthropic_api_key=claude_key, model_name="claude-2.1")
+    #cohere_api_key = st.secrets["cohere"]
+    #chat_eval_sentence=ChatCohere(cohere_api_key=cohere_api_key)
+    #chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
 
     persona=f'''
                 You are a coach in job interviews.
@@ -159,8 +173,13 @@ def stxt_new(key,audio_bytes):
 
 def main():
     openai_api_key = st.secrets["openai"]
+    #chat=ChatOpenAI(model_name='gpt-4',temperature=0.8,openai_api_key=openai_api_key)
+    claude_key = st.secrets["claude"]
 
-    chat=ChatOpenAI(model_name='gpt-4-0125-preview',temperature=0.8,openai_api_key=openai_api_key)
+    chat = ChatAnthropic(anthropic_api_key=claude_key, model_name="claude-2.1")
+
+    #cohere_api_key = st.secrets["cohere"]
+    #chat=ChatCohere(cohere_api_key=cohere_api_key)
 
     col_recruiter, col_candidate = st.columns(2)
 
