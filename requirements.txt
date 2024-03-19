@@ -21,3 +21,4 @@ language_tool_python
 anthropic
 playwright
 beautifulsoup4
+langchain_ai21
