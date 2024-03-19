@@ -212,7 +212,9 @@ def main():
         #st.write(st.session_state.stage)
         #st.write(st.session_state.messages)
         with st.spinner ("Thinking..."):
-            response=chat(st.session_state.messages)
+            with get_openai_callback() as cb:
+                response=chat(st.session_state.messages)
+                st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
         #st.write(st.session_state.option)
         with col_recruiter:
@@ -222,6 +224,7 @@ def main():
                 st.write(response.content)
             elif st.session_state.option=="voice":
                 tts(response.content,st.session_state.language)
+                st.write(st.session_state.cost)
                 #st.write("im here")
 
 
