@@ -103,7 +103,7 @@ def scoring_2(discussion):
     with st.spinner ("Thinking..."):
         with get_openai_callback() as cb:
             response=chat_eval_discussion(st.session_state.messages_eval)
-            st.session_state.cost=round(cb.total_cost,5)
+            st.session_state.cost=round(cb.total_cost,10)
             st.write(st.session_state.cost)
             #st.write(response.content)
             if response:
@@ -134,7 +134,7 @@ def evaluate_sentence2(job_offer,answer,language,question):
     with st.spinner ("Thinking..."):
         with get_openai_callback() as cb:
             response=chat_eval_sentence(st.session_state.messages_eval)
-            st.session_state.cost=round(cb.total_cost,5)
+            st.session_state.cost=round(cb.total_cost,10)
             st.write(st.session_state.cost)
             return response.content
 
@@ -220,7 +220,7 @@ def main():
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                st.session_state.cost=round(cb.total_cost,5)
+                st.session_state.cost=round(cb.total_cost,10)
         st.session_state.messages.append(AIMessage(content=response.content))
         #st.write(st.session_state.option)
         with col_recruiter:
