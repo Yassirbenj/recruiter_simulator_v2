@@ -101,10 +101,13 @@ def scoring_2(discussion):
     st.session_state.messages_eval.append(SystemMessage(content=context))
     st.session_state.messages_eval.append(HumanMessage(content=discussion))
     with st.spinner ("Thinking..."):
-        response=chat_eval_discussion(st.session_state.messages_eval)
-        #st.write(response.content)
-        if response:
-            return response.content
+        with get_openai_callback() as cb:
+            response=chat_eval_discussion(st.session_state.messages_eval)
+            st.session_state.cost=round(cb.total_cost,5)
+            st.write(st.session_state.cost)
+            #st.write(response.content)
+            if response:
+                return response.content
 
 def evaluate_sentence2(job_offer,answer,language,question):
     openai_api_key = st.secrets["openai"]
@@ -129,8 +132,11 @@ def evaluate_sentence2(job_offer,answer,language,question):
                                             you will first give your evaluation.
                                             and after give a better recommandation as an answer''')]
     with st.spinner ("Thinking..."):
-        response=chat_eval_sentence(st.session_state.messages_eval)
-        return response.content
+        with get_openai_callback() as cb:
+            response=chat_eval_sentence(st.session_state.messages_eval)
+            st.session_state.cost=round(cb.total_cost,5)
+            st.write(st.session_state.cost)
+            return response.content
 
 def stxt_new(key,audio_bytes):
 
@@ -212,7 +218,9 @@ def main():
         #st.write(st.session_state.stage)
         #st.write(st.session_state.messages)
         with st.spinner ("Thinking..."):
-            response=chat(st.session_state.messages)
+            with get_openai_callback() as cb:
+                response=chat(st.session_state.messages)
+                st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
         #st.write(st.session_state.option)
         with col_recruiter:
@@ -220,8 +228,10 @@ def main():
             st.image("data/recruiter.jpeg")
             if st.session_state.option=="text":
                 st.write(response.content)
+                st.write(st.session_state.cost)
             elif st.session_state.option=="voice":
                 tts(response.content,st.session_state.language)
+                st.write(st.session_state.cost)
                 #st.write("im here")
 
 
