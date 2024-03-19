@@ -89,8 +89,10 @@ def scoring_2(discussion):
         'language':'''is the candidate using a professional language and avoid grammar
                     and ortograph errors'''
     }
-    openai_api_key = st.secrets["openai"]
-    chat_eval_discussion=ChatOpenAI(model_name='gpt-4',temperature=0,openai_api_key=openai_api_key)
+    #openai_api_key = st.secrets["openai"]
+    cohere_api_key = st.secrets["cohere"]
+    chat_eval_discussion=ChatCohere(cohere_api_key=cohere_api_key)
+    #chat_eval_discussion=ChatOpenAI(model_name='gpt-4',temperature=0,openai_api_key=openai_api_key)
     context = f'''evaluate a job interview between a recruiter and a candidate
                 based on following discussion: {discussion}.
                 give a feedback to the candidate on the good points and the major points
@@ -108,8 +110,10 @@ def scoring_2(discussion):
             return response.content
 
 def evaluate_sentence2(job_offer,answer,language,question):
-    openai_api_key = st.secrets["openai"]
-    chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
+    #openai_api_key = st.secrets["openai"]
+    cohere_api_key = st.secrets["cohere"]
+    chat_eval_sentence=ChatCohere(cohere_api_key=cohere_api_key)
+    #chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
 
     persona=f'''
                 You are a coach in job interviews.
