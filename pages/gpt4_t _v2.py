@@ -161,8 +161,8 @@ def display_candidate():
                                 st.session_state.type_interview,
                                 st.session_state.language,
                                 st.session_state.job_offer)
-            set_state(2)
-            st.experimental_rerun()
+
+
     if st.session_state.option=='voice':
         audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2)
         if audio_bytes:
@@ -176,8 +176,6 @@ def display_candidate():
                                 st.session_state.type_interview,
                                 st.session_state.language,
                                 st.session_state.job_offer)
-            set_state(2)
-            st.experimental_rerun()
 
 
 
@@ -358,9 +356,13 @@ def main():
 
             with col_candidate:
                 display_candidate()
+                set_state(2)
+                st.experimental_rerun()
 
         else:
             with col_candidate:
                 display_candidate()
+                set_state(2)
+                st.experimental_rerun()
 
 main()
