@@ -111,7 +111,7 @@ def scoring_2(discussion):
 
 def evaluate_sentence2(job_offer,answer,language,question):
     openai_api_key = st.secrets["openai"]
-    chat_eval_sentence=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
+    chat_eval_sentence=ChatOpenAI(model_name='gpt-4-0125-preview',temperature=1,openai_api_key=openai_api_key)
 
     persona=f'''
                 You are a coach in job interviews.
@@ -137,47 +137,6 @@ def evaluate_sentence2(job_offer,answer,language,question):
             st.session_state.cost=round(cb.total_cost,10)
             st.write(st.session_state.cost)
             return response.content
-
-def display_candidate():
-    openai_api_key = st.secrets["openai"]
-    st.header("You")
-    st.image("data/candidate.jpg")
-    if st.session_state.option=='text':
-        prompt=st.chat_input("answer",on_submit=set_state_plus,
-                                args=[st.session_state.option,
-                                    st.session_state.job_title,
-                                    st.session_state.job_details,
-                                    st.session_state.seniority,
-                                    st.session_state.type_interview,
-                                    st.session_state.language,
-                                    st.session_state.job_offer])
-        if prompt:
-            st.session_state.messages.append(HumanMessage(content=prompt))
-            set_state_plus(st.session_state.option,
-                                st.session_state.job_title,
-                                st.session_state.job_details,
-                                st.session_state.academic,
-                                st.session_state.seniority,
-                                st.session_state.type_interview,
-                                st.session_state.language,
-                                st.session_state.job_offer)
-
-
-    if st.session_state.option=='voice':
-        audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2)
-        if audio_bytes:
-            prompt=stxt_new(openai_api_key,audio_bytes)
-            st.session_state.messages.append(HumanMessage(content=prompt))
-            set_state_plus(st.session_state.option,
-                                st.session_state.job_title,
-                                st.session_state.job_details,
-                                st.session_state.academic,
-                                st.session_state.seniority,
-                                st.session_state.type_interview,
-                                st.session_state.language,
-                                st.session_state.job_offer)
-
-
 
 def stxt_new(key,audio_bytes):
 
@@ -316,7 +275,7 @@ def main():
         indicator=len(messages)
 
         #st.write(f"lenght: {len(messages)}")
-        if indicator > 4    :
+        if indicator > 1    :
             if "disabled" not in st.session_state:
                 st.session_state.disabled=False
             with st.sidebar:
@@ -359,13 +318,13 @@ def main():
                 st.image("data/candidate.jpg")
                 if st.session_state.option=='text':
                     prompt=st.chat_input("answer",on_submit=set_state_plus,
-                                            args=[st.session_state.option,
-                                                st.session_state.job_title,
-                                                st.session_state.job_details,
-                                                st.session_state.seniority,
-                                                st.session_state.type_interview,
-                                                st.session_state.language,
-                                                st.session_state.job_offer])
+                                         args=[st.session_state.option,
+                                               st.session_state.job_title,
+                                               st.session_state.job_details,
+                                               st.session_state.seniority,
+                                               st.session_state.type_interview,
+                                               st.session_state.language,
+                                               st.session_state.job_offer])
                     if prompt:
                         st.session_state.messages.append(HumanMessage(content=prompt))
                         set_state_plus(st.session_state.option,
@@ -376,10 +335,10 @@ def main():
                                             st.session_state.type_interview,
                                             st.session_state.language,
                                             st.session_state.job_offer)
-
-
+                        set_state(2)
+                        st.experimental_rerun()
                 if st.session_state.option=='voice':
-                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2)
+                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2,key=str(indicator))
                     if audio_bytes:
                         prompt=stxt_new(openai_api_key,audio_bytes)
                         st.session_state.messages.append(HumanMessage(content=prompt))
@@ -391,8 +350,8 @@ def main():
                                             st.session_state.type_interview,
                                             st.session_state.language,
                                             st.session_state.job_offer)
-                set_state(2)
-                st.experimental_rerun()
+                        set_state(2)
+                        st.experimental_rerun()
 
         else:
             with col_candidate:
@@ -400,13 +359,14 @@ def main():
                 st.image("data/candidate.jpg")
                 if st.session_state.option=='text':
                     prompt=st.chat_input("answer",on_submit=set_state_plus,
-                                            args=[st.session_state.option,
-                                                st.session_state.job_title,
-                                                st.session_state.job_details,
-                                                st.session_state.seniority,
-                                                st.session_state.type_interview,
-                                                st.session_state.language,
-                                                st.session_state.job_offer])
+                                         args=[st.session_state.option,
+                                               st.session_state.job_title,
+                                               st.session_state.job_details,
+                                               st.session_state.academic,
+                                               st.session_state.seniority,
+                                               st.session_state.type_interview,
+                                               st.session_state.language,
+                                               st.session_state.job_offer])
                     if prompt:
                         st.session_state.messages.append(HumanMessage(content=prompt))
                         set_state_plus(st.session_state.option,
@@ -417,10 +377,10 @@ def main():
                                             st.session_state.type_interview,
                                             st.session_state.language,
                                             st.session_state.job_offer)
-
-
+                        set_state(2)
+                        st.experimental_rerun()
                 if st.session_state.option=='voice':
-                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2)
+                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2,key=str(indicator))
                     if audio_bytes:
                         prompt=stxt_new(openai_api_key,audio_bytes)
                         st.session_state.messages.append(HumanMessage(content=prompt))
@@ -432,7 +392,7 @@ def main():
                                             st.session_state.type_interview,
                                             st.session_state.language,
                                             st.session_state.job_offer)
-                set_state(2)
-                st.experimental_rerun()
+                        set_state(2)
+                        st.experimental_rerun()
 
 main()
