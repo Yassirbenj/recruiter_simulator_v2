@@ -363,6 +363,6 @@ def main():
             with col_candidate:
                 display_candidate()
                 set_state(2)
-                st.experimental_rerun()
+                #st.experimental_rerun()
 
 main()
