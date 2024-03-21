@@ -386,6 +386,7 @@ def main():
                                             st.session_state.job_title,
                                             st.session_state.job_details,
                                             st.session_state.seniority,
+                                            st.session_state.academic,
                                             st.session_state.type_interview,
                                             st.session_state.language,
                                             st.session_state.job_offer)
