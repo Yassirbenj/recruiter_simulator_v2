@@ -140,8 +140,6 @@ def evaluate_sentence2(job_offer,answer,language,question):
 
 def stxt_new(key,audio_bytes):
 
-    #audio_bytes = audio_recorder(energy_threshold=(-1.0,1.0), pause_threshold=10)
-
     if audio_bytes:
         try:
             with st.spinner ("Thinking..."):
@@ -380,20 +378,18 @@ def main():
                         set_state(2)
                         st.experimental_rerun()
                 if st.session_state.option=='voice':
-                    audio_bytes=audio_recorder(energy_threshold=(-1.0,1.0), pause_threshold=5,key=str(indicator))
+                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2,key=str(indicator))
                     if audio_bytes:
                         prompt=stxt_new(openai_api_key,audio_bytes)
-                        if prompt:
-                            st.session_state.messages.append(HumanMessage(content=prompt))
-                            set_state_plus(st.session_state.option,
-                                                st.session_state.job_title,
-                                                st.session_state.job_details,
-                                                st.session_state.academic,
-                                                st.session_state.seniority,
-                                                st.session_state.type_interview,
-                                                st.session_state.language,
-                                                st.session_state.job_offer)
-                            set_state(2)
-                            st.experimental_rerun()
+                        st.session_state.messages.append(HumanMessage(content=prompt))
+                        set_state_plus(st.session_state.option,
+                                            st.session_state.job_title,
+                                            st.session_state.job_details,
+                                            st.session_state.seniority,
+                                            st.session_state.type_interview,
+                                            st.session_state.language,
+                                            st.session_state.job_offer)
+                        set_state(2)
+                        st.experimental_rerun()
 
 main()
