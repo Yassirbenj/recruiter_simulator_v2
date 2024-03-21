@@ -380,9 +380,11 @@ def main():
                         set_state(2)
                         st.experimental_rerun()
                 if st.session_state.option=='voice':
-                    audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2,key=str(indicator))
-                    if audio_bytes:
-                        prompt=stxt_new(openai_api_key,audio_bytes)
+                    #audio_bytes=audio_recorder(energy_threshold=0.01, pause_threshold=2,key=str(indicator))
+                    prompt=stxt(openai_api_key)
+                    #if audio_bytes:
+                    if prompt:
+                        #prompt=stxt_new(openai_api_key,audio_bytes)
                         st.session_state.messages.append(HumanMessage(content=prompt))
                         set_state_plus(st.session_state.option,
                                             st.session_state.job_title,
